@@ -1,30 +1,25 @@
 /*
  * Title: Jokes Library
  * Description: Utility library for getting a list of Jokes
- * Author: Leslie Lewis
- * Date: 10/24/17
- *
+*
  */
 
-
 // Dependencies
-var fs = require('fs');
+const fs = require("fs");
 
 // App object
-var jokes = {};
+const jokes = {};
 
 // Get all the jokes and return them to the user
-jokes.allJokes = function(){
+jokes.allJokes = function allJokes() {
+  // Read the text file containing the jokes
+  const fileContents = fs.readFileSync(`${__dirname}/jokes.txt`, "utf8");
 
-    // Read the text file containing the jokes
-    var fileContents = fs.readFileSync(__dirname+'/jokes.txt', 'utf8');
+  // Turn the string into an array
+  const arrayOfJokes = fileContents.split(/\r?\n/);
 
-    // Turn the string into an array 
-    var arrayOfJokes = fileContents.split(/\r?\n/);
-
-    // Return the array
-    return arrayOfJokes;
-
+  // Return the array
+  return arrayOfJokes;
 };
 
 // Export the library
