@@ -7,13 +7,18 @@ const url = require("url");
 */
 const server = http.createServer((req, resp) => {
   /* Get the URL and parse it
-    true indicates that we want to also use the query string module...    
+    true indicates that we want to also use the query string module.
+    
+    This will allow us to parse the query and get it as Object with name/values.
   */
   const parsedURL = url.parse(req.url, true);
 
   // Get the path
   const path = parsedURL.pathname;
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
+
+  // Get query string as an Object
+  const queryStringObj = parsedURL.query;
 
   // Get the HTTP method
   const method = req.method.toUpperCase();
@@ -23,7 +28,9 @@ const server = http.createServer((req, resp) => {
 
   // Log it!
   console.log(
-    `Request received on path: ${trimmedPath}. The method is: ${method}.`
+    `Request received on path: ${trimmedPath}. The method is: ${method}. The query string parameters are: ${JSON.stringify(
+      queryStringObj
+    )}.`
   );
 });
 
