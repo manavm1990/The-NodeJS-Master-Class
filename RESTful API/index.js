@@ -23,6 +23,9 @@ const server = http.createServer((req, resp) => {
   // Get the HTTP method
   const method = req.method.toUpperCase();
 
+  // Get the headers from user request
+  const { headers } = req;
+
   // Send response
   resp.end("Hello World\n");
 
@@ -30,7 +33,13 @@ const server = http.createServer((req, resp) => {
   console.log(
     `Request received on path: ${trimmedPath}. The method is: ${method}. The query string parameters are: ${JSON.stringify(
       queryStringObj
-    )}.`
+    )}.
+    
+    The headers are: ${JSON.stringify(
+      headers,
+      null,
+      1
+    )}.` /* 'null' is there because we don't need any manipulation oof the default stringifcation. '1' is there for 'new line' formatting. */
   );
 });
 
