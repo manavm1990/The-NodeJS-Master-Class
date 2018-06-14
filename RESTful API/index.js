@@ -33,7 +33,6 @@ const server = http.createServer((req, resp) => {
 
   /* Each time data is received (if any) via the Node stream, append payloadBuffer. */
   req.on("data", data => {
-    console.log("getting something");
     payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.
   });
 
