@@ -96,8 +96,6 @@ const server = http.createServer((req, resp) => {
   });
 });
 
-/* Start server, listening on 3000.
-  Here is the 'constantly running task' for NodeJS Event Loop. */
 server.listen(3000, () => {
   console.log("Listening on port 3000!");
 });
