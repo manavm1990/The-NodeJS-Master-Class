@@ -2,6 +2,24 @@ const http = require("http");
 const url = require("url");
 const StrDecoder = require("string_decoder").StringDecoder; // Constructors should start with capital
 
+// Handlers
+const handlers = {};
+
+// Test Handler
+handlers.test = function handlerTestFxn(data, cb) {
+  cb(406, { name: "test" }); // Pass a status code and payload object.
+};
+
+// 404 Handler
+handlers.notFound = function handler404Fxn(data, cb) {
+  cb(404); // no payload if 'bad' page
+};
+
+// Request router
+const router = {
+  test: handlers.test
+};
+
 /* Server to respond to all requests with a string.
   Req and resp are brand new each time the server is hit.
   Req contains much information about what user is asking for.
@@ -40,20 +58,41 @@ const server = http.createServer((req, resp) => {
   req.on("end", () => {
     payloadBuffer += decoder.end();
 
-    // Once payloadBuffer is 'ended', we can proceed with what else we need to do.
-    // Send response
-    resp.end("Hello World\n");
+    // Find correct handler fxn. by checking to see if our path matches any route
+    const handlerFxn =
+      typeof router[trimmedPath] !== "undefined"
+        ? router[trimmedPath]
+        : handlers.notFound;
 
-    // Log it!
-    console.log(
-      //   `Request received on path: ${trimmedPath}. The method is: ${method}. The query string parameters are: ${JSON.stringify(
-      //     queryStringObj
-      //   )}.
+    const data = {
+      trimmedPath,
+      queryStringObj,
+      method,
+      headers,
+      reqPayload: payloadBuffer
+    };
 
-      // The headers are: ${JSON.stringify(headers, null, 1)}.
+    handlerFxn(data, (statusCode, respPayload) => {
+      /* We need to set defaults for statusCode and payloadObj, in case we don't get anything for those values back from the handler. 
+      
+      See if statusCode is, in fact, a number - e.g. an actual non-blank status code sent back from handler. If it is, use it, otherwise set it to 200.
+      */
+      const verifiedStatusCode =
+        typeof statusCode === "number" ? statusCode : 200;
 
-      `Here's the payload: ${payloadBuffer}`
-    );
+      /* Similar to above, verify the payload is a valid object. */
+      const verifiedPayload =
+        typeof respPayload === "object" ? respPayload : {};
+
+      const verifiedPayloadStr = JSON.stringify(verifiedPayload);
+
+      resp.writeHead(verifiedStatusCode);
+      resp.end(verifiedPayloadStr);
+
+      console.log(
+        `Here's the response: ${verifiedStatusCode} and ${verifiedPayloadStr}`
+      );
+    });
   });
 });
 
