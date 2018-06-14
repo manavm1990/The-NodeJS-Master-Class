@@ -1,5 +1,6 @@
 const http = require("http");
 const url = require("url");
+const StrDecoder = require("string_decoder").StringDecoder; // Constructors should start with capital
 
 /* Server to respond to all requests with a string.
   Req and resp are brand new each time the server is hit.
@@ -25,22 +26,37 @@ const server = http.createServer((req, resp) => {
   // Get the headers from user request
   const { headers } = req;
 
-  // Send response
-  resp.end("Hello World\n");
+  // Process any payload
+  /* We create a 'payload buffer', which will get appended by the strDecoder. */
+  const decoder = new StrDecoder("utf-8");
+  let payloadBuffer = "";
 
-  // Log it!
-  console.log(
-    `Request received on path: ${trimmedPath}. The method is: ${method}. The query string parameters are: ${JSON.stringify(
-      queryStringObj
-    )}.
-    
-    The headers are: ${JSON.stringify(
-      headers,
-      null,
-      1
-    )}.` /* 'null' is there because we don't need any manipulation oof the default stringifcation. '1' is there for 'new line' formatting. */
+  /* Each time data is received (if any) via the Node stream, append payloadBuffer. */
+  req.on("data", data => {
+    console.log("getting something");
+    payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.
+  });
+
+  // Watch for end of stream
+  req.on("end", () => {
+    payloadBuffer += decoder.end();
+
+    // Once payloadBuffer is 'ended', we can proceed with what else we need to do.
+    // Send response
+    resp.end("Hello World\n");
+
+    // Log it!
+    console.log(
+      //   `Request received on path: ${trimmedPath}. The method is: ${method}. The query string parameters are: ${JSON.stringify(
+      //     queryStringObj
+      //   )}.
+
+      // The headers are: ${JSON.stringify(headers, null, 1)}.
+
+      `Here's the payload: ${payloadBuffer}`
     );
   });
+});
 
 /* Start server, listening on 3000.
   Here is the 'constantly running task' for NodeJS Event Loop. */
