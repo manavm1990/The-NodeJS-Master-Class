@@ -21,15 +21,11 @@ const router = {
   test: handlers.test
 };
 
-/* Server to respond to all requests with a string.
-  Req and resp are brand new each time the server is hit.
-  Req contains much information about what user is asking for.
-*/
-const server = http.createServer((req, resp) => {
+const fullServer = function fullServer(req, resp) {
   /* Get the URL and parse it
-    true indicates that we want to also use the query string module.
-    This will allow us to parse the query and get it as Object with name/values.
-  */
+  true indicates that we want to also use the query string module.
+  This will allow us to parse the query and get it as Object with name/values.
+*/
   const parsedURL = url.parse(req.url, true);
 
   // Get the path
@@ -75,9 +71,9 @@ const server = http.createServer((req, resp) => {
 
     handlerFxn(data, (statusCode, respPayload) => {
       /* We need to set defaults for statusCode and payloadObj, in case we don't get anything for those values back from the handler. 
-      
-      See if statusCode is, in fact, a number - e.g. an actual non-blank status code sent back from handler. If it is, use it, otherwise set it to 200.
-      */
+    
+    See if statusCode is, in fact, a number - e.g. an actual non-blank status code sent back from handler. If it is, use it, otherwise set it to 200.
+    */
       const verifiedStatusCode =
         typeof statusCode === "number" ? statusCode : 200;
 
@@ -96,8 +92,12 @@ const server = http.createServer((req, resp) => {
       );
     });
   });
+};
+
+const server = http.createServer((req, resp) => {
+  fullServer(req, resp);
 });
 
 server.listen(config.port, () => {
-  console.log(`Listening on port: ${config.port} in ${config.name} mode.`);
+  console.log(`Listening on port: ${config.httpPort} in ${config.name} mode.`);
 });
