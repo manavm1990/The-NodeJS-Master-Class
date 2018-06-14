@@ -8,9 +8,8 @@ const config = require("./config");
 // Handlers
 const handlers = {};
 
-// Test Handler
-handlers.test = function handlerTestFxn(data, cb) {
-  cb(406, { name: "test" }); // Pass a status code and payload object.
+handlers.ping = function handlerPingFxn(data, cb) {
+  cb(200);
 };
 
 // 404 Handler
@@ -20,7 +19,7 @@ handlers.notFound = function handler404Fxn(data, cb) {
 
 // Request router
 const router = {
-  test: handlers.test
+  ping: handlers.ping
 };
 
 const fullServer = function fullServer(req, resp) {
