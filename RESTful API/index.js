@@ -99,5 +99,5 @@ const server = http.createServer((req, resp) => {
 });
 
 server.listen(config.port, () => {
-  console.log(`Listening on port: ${config.httpPort} in ${config.name} mode.`);
+  console.log(`Listening on port: ${config.httpPort}`);
 });
