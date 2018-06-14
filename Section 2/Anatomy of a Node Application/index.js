@@ -1,7 +1,6 @@
 /*
  * Title: Basic Node Example
  * Description: Simple file that declares a few functions and invokes them.
- *
  */
 
 // Dependencies
