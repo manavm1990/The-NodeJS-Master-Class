@@ -39,11 +39,11 @@ const server = http.createServer((req, resp) => {
       null,
       1
     )}.` /* 'null' is there because we don't need any manipulation oof the default stringifcation. '1' is there for 'new line' formatting. */
-  );
-});
+    );
+  });
 
 /* Start server, listening on 3000.
   Here is the 'constantly running task' for NodeJS Event Loop. */
 server.listen(3000, () => {
-  console.log("We are on port 3000!");
+  console.log("Listening on port 3000!");
 });
