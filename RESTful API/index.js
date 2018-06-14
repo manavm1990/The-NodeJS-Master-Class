@@ -1,6 +1,7 @@
 const http = require("http");
 const url = require("url");
 const StrDecoder = require("string_decoder").StringDecoder; // Constructors should start with capital
+const config = require("./config");
 
 // Handlers
 const handlers = {};
@@ -86,6 +87,7 @@ const server = http.createServer((req, resp) => {
 
       const verifiedPayloadStr = JSON.stringify(verifiedPayload);
 
+      resp.setHeader("Content-Type", "application/json");
       resp.writeHead(verifiedStatusCode);
       resp.end(verifiedPayloadStr);
 
@@ -96,6 +98,6 @@ const server = http.createServer((req, resp) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Listening on port 3000!");
+server.listen(config.port, () => {
+  console.log(`Listening on port: ${config.port} in ${config.name} mode.`);
 });
