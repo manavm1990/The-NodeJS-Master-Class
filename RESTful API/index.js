@@ -1,6 +1,8 @@
 const http = require("http");
+const https = require("https");
 const url = require("url");
 const StrDecoder = require("string_decoder").StringDecoder; // Constructors should start with capital
+const fs = require("fs");
 const config = require("./config");
 
 // Handlers
@@ -94,10 +96,24 @@ const fullServer = function fullServer(req, resp) {
   });
 };
 
-const server = http.createServer((req, resp) => {
+const httpServer = http.createServer((req, resp) => {
   fullServer(req, resp);
 });
 
-server.listen(config.port, () => {
+httpServer.listen(config.httpPort, () => {
   console.log(`Listening on port: ${config.httpPort}`);
+});
+
+const httpsServerOptions = {
+  key: fs.readFileSync("./https/key.pem"),
+  cert: fs.readFileSync("./https/cert.pem")
+};
+
+const httpsServer = https.createServer(httpsServerOptions, (req, resp) => {
+  // httpsServerOptions will have the cert and key information
+  fullServer(req, resp);
+});
+
+httpsServer.listen(config.httpsPort, () => {
+  console.log(`Listening on port: ${config.httpsPort}`);
 });
