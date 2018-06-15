@@ -8,12 +8,12 @@ const config = require("./config");
 // Handlers
 const handlers = {};
 
-handlers.ping = function handlerPingFxn(data, cb) {
+handlers.ping = function ping(data, cb) {
   cb(200);
 };
 
 // 404 Handler
-handlers.notFound = function handler404Fxn(data, cb) {
+handlers.notFound = function notFound(data, cb) {
   cb(404); // no payload if 'bad' page
 };
 
