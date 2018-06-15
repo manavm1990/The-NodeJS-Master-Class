@@ -23,10 +23,6 @@ const router = {
 };
 
 const fullServer = function fullServer(req, resp) {
-  /* Get the URL and parse it
-  true indicates that we want to also use the query string module.
-  This will allow us to parse the query and get it as Object with name/values.
-*/
   const parsedURL = url.parse(req.url, true);
 
   // Get the path
@@ -71,14 +67,9 @@ const fullServer = function fullServer(req, resp) {
     };
 
     handlerFxn(data, (statusCode, respPayload) => {
-      /* We need to set defaults for statusCode and payloadObj, in case we don't get anything for those values back from the handler. 
-    
-    See if statusCode is, in fact, a number - e.g. an actual non-blank status code sent back from handler. If it is, use it, otherwise set it to 200.
-    */
       const verifiedStatusCode =
         typeof statusCode === "number" ? statusCode : 200;
 
-      /* Similar to above, verify the payload is a valid object. */
       const verifiedPayload =
         typeof respPayload === "object" ? respPayload : {};
 
