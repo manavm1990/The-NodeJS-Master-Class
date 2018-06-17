@@ -7,9 +7,16 @@ const fs = require("fs");
 const config = require("./config");
 const dataMgr = require("./lib/dataMgr");
 
-dataMgr.createFile("test", "testFile", { name: "test" }, riteResults => {
-  console.log(`Here's what happened as a result of the riting: ${riteResults}`);
-});
+dataMgr.createWriteCloseFile(
+  "test",
+  "testFile",
+  { name: "test" },
+  riteResults => {
+    console.log(
+      `Here's what happened as a result of the riting: ${riteResults}`
+    );
+  }
+);
 
 // Handlers
 const handlers = {};

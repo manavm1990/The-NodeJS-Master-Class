@@ -8,7 +8,12 @@ const dataMgr = {};
 dataMgr.baseDir = path.join(__dirname, "/../.data");
 
 /* Developer's Note: THIS WILL NOT CREATE THE DIRECTORY. THE DIRECTORY MUST ALREADY BE PRESENT. IT WILL ONLY CREATE THE FILE! */
-dataMgr.createFile = function createFile(dir, file, data, cb) {
+dataMgr.createWriteCloseFile = function createWriteCloseFile(
+  dir,
+  file,
+  data,
+  cb
+) {
   console.log("createFile called!");
   fs.open(`${dataMgr.baseDir}/${dir}/${file}.json`, "wx", (err, fileDesc) => {
     if (err) {
