@@ -5,10 +5,10 @@ const StrDecoder = require("string_decoder").StringDecoder; // Constructors shou
 const fs = require("fs");
 
 const config = require("./config");
-const data = require("./lib/dataMgr");
+const dataMgr = require("./lib/dataMgr");
 
-data.rite("test", "testFile", { name: "test" }, err => {
-  console.log(err);
+dataMgr.createFile("test", "testFile", { name: "test" }, riteResults => {
+  console.log(`Here's what happened as a result of the riting: ${riteResults}`);
 });
 
 // Handlers
@@ -46,7 +46,6 @@ const fullServer = function fullServer(req, resp) {
   const { headers } = req;
 
   // Process any payload
-  /* We create a 'payload buffer', which will get appended by the strDecoder. */
   const decoder = new StrDecoder("utf-8");
   let payloadBuffer = "";
 
