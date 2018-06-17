@@ -7,16 +7,9 @@ const fs = require("fs");
 const config = require("./config");
 const dataMgr = require("./lib/dataMgr");
 
-dataMgr.createWriteCloseFile(
-  "test",
-  "testFile",
-  { name: "test" },
-  riteResults => {
-    console.log(
-      `Here's what happened as a result of the riting: ${riteResults}`
-    );
-  }
-);
+dataMgr.readFile("test", "testFilekkk", (err, redResults) => {
+  console.log(`Error results: ${err}. Red results: ${redResults}`);
+});
 
 // Handlers
 const handlers = {};

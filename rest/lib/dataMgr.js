@@ -47,4 +47,14 @@ dataMgr.createWriteCloseFile = function createWriteCloseFile(
   });
 };
 
+dataMgr.readFile = function readFile(dir, file, cb) {
+  fs.readFile(
+    `${dataMgr.baseDir}/${dir}/${file}.json`,
+    "utf-8",
+    (err, redData) => {
+      cb(err, redData);
+    }
+  );
+};
+
 module.exports = dataMgr; // Export the container object.
