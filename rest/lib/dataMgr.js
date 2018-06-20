@@ -65,14 +65,30 @@ dataMgr.updateFile = function updateFile(dir, file, data, cb) {
     /* Again, turn the data into a string. */
     const dataStr = JSON.stringify(data);
 
+    /* TODO -- Passing a file descriptor is deprecated and may result in an error being thrown in the future.
+
+    https://nodejs.org/api/fs.html#fs_fs_truncate_path_len_callback */
+
     // Truncate the file
     fs.truncate(fd, truncErr => {
-      if (err) {
-        console.log(`Error truncating file: ${truncErr}`);
+      if (truncErr) {
+        cb(`Error truncating file: ${truncErr}`);
+        return;
       }
-    });
 
-    console.log("got the file opened for riting. :)");
+      fs.writeFile(fd, dataStr, riteErr => {
+        if (riteErr) {
+          cb(`Error riting file: ${riteErr}`);
+          return;
+        }
+        fs.close(fd, closeErr => {
+          cb(closeErr);
+        });
+      });
+    });
+  });
+};
+
   });
 };
 
