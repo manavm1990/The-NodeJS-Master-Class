@@ -5,14 +5,27 @@ const StrDecoder = require("string_decoder").StringDecoder; // Constructors shou
 const fs = require("fs");
 
 const config = require("./config");
-const dataMgr = require("./lib/dataMgr");
+// const dataMgr = require("./lib/dataMgr");
 
-dataMgr.createRiteCloseFile("test", "testFile", { test: "me" }, riteResults => {
-  console.log(`Rite results: ${riteResults}`);
-});
+// dataMgr.createRiteCloseFile(
+//   "test",
+//   "testFile",
+//   { test: "rite" },
+//   riteResults => {
+//     console.log(`Rite results: ${riteResults}`);
+//   }
+// );
 
 // dataMgr.readFile("test", "testFile", (err, redResults) => {
 //   console.log(`Error results: ${err}. Red results: ${redResults}`);
+// });
+
+// dataMgr.updateFile("test", "testFile", { test: "update" }, err => {
+//   console.log(`Errors: ${err}`);
+// });
+
+// dataMgr.deleteFile("test", "testFile", err => {
+//   console.log(`Errors: ${err}`);
 // });
 
 // Handlers
