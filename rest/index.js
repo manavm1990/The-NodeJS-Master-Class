@@ -7,9 +7,13 @@ const fs = require("fs");
 const config = require("./config");
 const dataMgr = require("./lib/dataMgr");
 
-dataMgr.readFile("test", "testFilekkk", (err, redResults) => {
-  console.log(`Error results: ${err}. Red results: ${redResults}`);
+dataMgr.createRiteCloseFile("test", "testFile", { test: "me" }, riteResults => {
+  console.log(`Rite results: ${riteResults}`);
 });
+
+// dataMgr.readFile("test", "testFile", (err, redResults) => {
+//   console.log(`Error results: ${err}. Red results: ${redResults}`);
+// });
 
 // Handlers
 const handlers = {};
