@@ -14,7 +14,9 @@ dataMgr.createRiteCloseFile = function createRriteCloseFile(
   data,
   cb
 ) {
-  fs.open(`${dataMgr.baseDir}/${dir}/${file}.json`, "wx", (err, fileDesc) => {
+  const filePath = `${dataMgr.baseDir}/${dir}/${file}.json`;
+
+  fs.open(filePath, "wx", err => {
     if (err) {
       console.log(err);
       cb("Could not create file for writing. Does it already exist?");
@@ -25,20 +27,13 @@ dataMgr.createRiteCloseFile = function createRriteCloseFile(
     const dataStr = JSON.stringify(data);
 
     // Write dataStr to file and then close that file
-    fs.writeFile(fileDesc, dataStr, riteErr => {
+    fs.writeFile(filePath, dataStr, riteErr => {
       if (riteErr) {
         cb("Error riting to new file");
         return;
       }
 
       cb(dataStr); // This is 'matched up' with riteResults in index.js
-
-      /* Write was successful. Now close the file. */
-      fs.close(fileDesc, closeErr => {
-        if (closeErr) {
-          cb("Error closing file!");
-        }
-      });
     });
   });
 };
