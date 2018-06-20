@@ -89,6 +89,9 @@ dataMgr.updateFile = function updateFile(dir, file, data, cb) {
   });
 };
 
+dataMgr.deleteFile = function deleteFile(dir, file, cb) {
+  fs.unlink(`${dataMgr.baseDir}/${dir}/${file}.json`, err => {
+    cb(`Error deleting file: ${err}`);
   });
 };
 
