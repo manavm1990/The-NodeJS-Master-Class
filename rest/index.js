@@ -5,6 +5,7 @@ const StrDecoder = require("string_decoder").StringDecoder; // Constructors shou
 const fs = require("fs");
 
 const config = require("./config");
+const handlers = require("./lib/handlers");
 // const dataMgr = require("./lib/dataMgr");
 
 // dataMgr.createRiteCloseFile(
@@ -27,19 +28,6 @@ const config = require("./config");
 // dataMgr.deleteFile("test", "testFile", err => {
 //   console.log(`Errors: ${err}`);
 // });
-
-// Handlers
-const handlers = {};
-
-handlers.ping = function ping(d, cb) {
-  /* This passes no data. So, as seen below, it will default to an empty object. */
-  cb(200);
-};
-
-// 404 Handler
-handlers.notFound = function notFound(d, cb) {
-  cb(404); // no payload if 'bad' page
-};
 
 // Request router
 const router = {
