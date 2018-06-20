@@ -49,35 +49,32 @@ dataMgr.readFile = function readFile(dir, file, cb) {
 };
 
 dataMgr.updateFile = function updateFile(dir, file, data, cb) {
+  const filePath = `${dataMgr.baseDir}/${dir}/${file}.json`;
+
   /* 'r+' opens for reading/writing. It generates an error if the file doesn't yet exist. */
+  fs.open(filePath, "r+", err => {
     if (err) {
-      console.log(err);
-      cb("Could not open file for writing. Does it exist?");
+      cb("Could not open file for writing. Does it exist?", err);
       return;
     }
 
     /* Again, turn the data into a string. */
     const dataStr = JSON.stringify(data);
 
-    /* TODO -- Passing a file descriptor is deprecated and may result in an error being thrown in the future.
-
-    https://nodejs.org/api/fs.html#fs_fs_truncate_path_len_callback */
-
     // Truncate the file
-    fs.truncate(fd, truncErr => {
+    fs.truncate(filePath, truncErr => {
       if (truncErr) {
         cb(`Error truncating file: ${truncErr}`);
         return;
       }
 
-      fs.writeFile(fd, dataStr, riteErr => {
+      fs.writeFile(filePath, dataStr, riteErr => {
         if (riteErr) {
           cb(`Error riting file: ${riteErr}`);
           return;
         }
-        fs.close(fd, closeErr => {
-          cb(closeErr);
-        });
+
+        cb(dataStr);
       });
     });
   });
@@ -85,7 +82,9 @@ dataMgr.updateFile = function updateFile(dir, file, data, cb) {
 
 dataMgr.deleteFile = function deleteFile(dir, file, cb) {
   fs.unlink(`${dataMgr.baseDir}/${dir}/${file}.json`, err => {
-    cb(`Error deleting file: ${err}`);
+    if (err) {
+      cb(`Error deleting file: ${err}`);
+    }
   });
 };
 
