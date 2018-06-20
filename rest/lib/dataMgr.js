@@ -49,8 +49,7 @@ dataMgr.readFile = function readFile(dir, file, cb) {
 };
 
 dataMgr.updateFile = function updateFile(dir, file, data, cb) {
-  /* Start by opening the file. Use 'r+' to open for reading/writing, and error out if the file doesn't exist yet. */
-  fs.open(`${dataMgr.baseDir}/${dir}/${file}.json`, "r+", (err, fd) => {
+  /* 'r+' opens for reading/writing. It generates an error if the file doesn't yet exist. */
     if (err) {
       console.log(err);
       cb("Could not open file for writing. Does it exist?");
