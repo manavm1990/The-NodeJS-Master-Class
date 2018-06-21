@@ -97,9 +97,10 @@ handlers.users.post = function getHandler(d, cb) {
     }
   });
 };
-handlers.users.post = function get(d, cb) {};
-handlers.users.put = function get(d, cb) {};
-handlers.users.delete = function get(d, cb) {};
+
+handlers.users.get = function get(d, cb) {};
+handlers.users.put = function put(d, cb) {};
+handlers.users.delete = function del(d, cb) {}; // Developer's Note: Unable to name this 'delete'...
 
 handlers.ping = function ping(d, cb) {
   cb(200);
