@@ -34,7 +34,7 @@ crud.createRiteCloseFile = function createRriteCloseFile(dir, file, data, cb) {
         return;
       }
 
-      cb(dataStr); // This is 'matched up' with riteResults in index.js
+      cb(dataStr);
     });
   });
 };
