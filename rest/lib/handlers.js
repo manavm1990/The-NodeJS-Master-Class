@@ -39,7 +39,7 @@ handlers.users.post = function getHandler(d, cb) {
   const validatedFone =
     typeof fone === "string" && fone.trim().length === 10 ? fone : false;
   const validatedPword =
-    typeof password === "string" && pword.trim().length > 0 ? pword : false;
+    typeof pword === "string" && pword.trim().length > 0 ? pword : false;
   const validatedTos = typeof tos === "boolean" && tos === true ? tos : false;
 
   if (
