@@ -25,11 +25,7 @@ handlers.users = function users(d, cb) {
 
 handlers.users.post = function getHandler(d, cb) {
   // Developer's Note: Using 'obj destructuring' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-  const fname = d.reqPayload;
-  const lname = d.reqPayload;
-  const fone = d.reqPayload;
-  const pword = d.reqPayload;
-  const tos = d.reqPayload;
+  const { fname, lname, fone, pword, tos } = d.reqPayload;
 
   // Server-side validation
   const validatedFname =
