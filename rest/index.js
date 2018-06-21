@@ -6,6 +6,7 @@ const fs = require("fs");
 
 const config = require("./config");
 const handlers = require("./lib/handlers");
+const helpers = require("./lib/helpers");
 
 // Request router
 const router = {
@@ -53,7 +54,7 @@ const fullServer = function fullServer(req, resp) {
       queryStringObj,
       method,
       headers,
-      reqPayload: payloadBuffer
+      reqPayload: helpers.parseJsonToObject(payloadBuffer) // We don't want a thrown error.
     };
 
     console.log(handlerFxn);
