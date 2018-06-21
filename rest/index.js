@@ -17,7 +17,7 @@ const handlers = require("./lib/handlers");
 //   }
 // );
 
-// dataMgr.readFile("test", "testFile", (err, redResults) => {
+// dataMgr.readDataFile("test", "testFile", (err, redResults) => {
 //   console.log(`Error results: ${err}. Red results: ${redResults}`);
 // });
 

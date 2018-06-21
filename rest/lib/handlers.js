@@ -3,6 +3,7 @@
 // Handlers
 const handlers = {};
 
+  dataMgr.readDataFile("users", fone, (err, data) => {
 handlers.ping = function ping(d, cb) {
   /* This passes no data. So, as seen below, it will default to an empty object. */
   cb(200);

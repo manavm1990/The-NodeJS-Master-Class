@@ -38,7 +38,7 @@ dataMgr.createRiteCloseFile = function createRriteCloseFile(
   });
 };
 
-dataMgr.readFile = function readFile(dir, file, cb) {
+dataMgr.readDataFile = function readFile(dir, file, cb) {
   fs.readFile(
     `${dataMgr.baseDir}/${dir}/${file}.json`,
     "utf-8",
