@@ -5,6 +5,8 @@ const crud = require("./crud");
 // Handlers
 const handlers = {};
 
+handlers.users = {};
+
 // Users handler
 handlers.users = function users(d, cb) {
   // Limit the types of requests users can make
@@ -21,7 +23,6 @@ handlers.users = function users(d, cb) {
   handlers.users[currMethodType](d, cb);
 };
 
-handlers.users = {};
 
 handlers.users.getHandler = function getHandler(d, cb) {
   // Grab trimmed fields
