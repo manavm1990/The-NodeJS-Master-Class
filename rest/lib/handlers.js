@@ -80,11 +80,10 @@ handlers.users.post = function getHandler(d, cb) {
         userObj,
         createUserErr => {
           if (createUserErr) {
-            console.log(`Error creating the new user: ${err}`);
+            console.log(`Error creating the new user: ${createUserErr}`);
             cb(500, { Error: "Unable to create the new user!" });
             return;
           }
-
           cb(200);
         }
       );
