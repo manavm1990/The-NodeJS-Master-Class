@@ -12,7 +12,7 @@ handlers.users = function users(d, cb) {
   // Limit the types of requests users can make
   const accMethodTypes = ["get", "post", "put", "delete"];
 
-  const currMethodType = d.method;
+  const currMethodType = d.method.toLowerCase();
 
   if (accMethodTypes.indexOf(currMethodType) === -1) {
     // -1 means that it was not found (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
