@@ -110,6 +110,4 @@ handlers.notFound = function notFound(d, cb) {
   cb(404); // no payload if 'bad' page
 };
 
-// Users handler
-
 module.exports = handlers;
