@@ -7,7 +7,9 @@ const crud = {};
 // Set up base directory for data folder.
 crud.baseDir = path.join(__dirname, "/../.data");
 
-/* Developer's Note: THIS WILL NOT CREATE THE DIRECTORY. THE DIRECTORY MUST ALREADY BE PRESENT. IT WILL ONLY CREATE THE FILE! */
+/**
+ * Developer's Note: THIS WILL NOT CREATE THE DIRECTORY. THE DIRECTORY MUST ALREADY BE PRESENT. IT WILL ONLY CREATE THE FILE!
+ */
 crud.createRiteCloseFile = function createRriteCloseFile(dir, file, data, cb) {
   const filePath = `${crud.baseDir}/${dir}/${file}.json`;
 
@@ -18,7 +20,11 @@ crud.createRiteCloseFile = function createRriteCloseFile(dir, file, data, cb) {
       return;
     }
 
-    /* We are passing in JSON data. It is converted to string for riting. Then, when we read it back out, we want JSON objects. */
+    /**
+     * We are passing in JSON data.
+     * It is converted to string for riting.
+     * Then, when we read it back out, we want JSON objects.
+     */
     const dataStr = JSON.stringify(data);
 
     // Write dataStr to file and then close that file
@@ -46,14 +52,17 @@ crud.readDataFile = function readFile(dir, file, cb) {
 crud.updateFile = function updateFile(dir, file, data, cb) {
   const filePath = `${crud.baseDir}/${dir}/${file}.json`;
 
-  /* 'r+' opens for reading/writing. It generates an error if the file doesn't yet exist. */
+  /**
+   * 'r+' opens for reading/writing.
+   *  It generates an error if the file doesn't yet exist.
+   */
   fs.open(filePath, "r+", err => {
     if (err) {
       cb("Could not open file for writing. Does it exist?", err);
       return;
     }
 
-    /* Again, turn the data into a string. */
+    // Again, turn the data into a string.
     const dataStr = JSON.stringify(data);
 
     // Truncate the file

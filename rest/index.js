@@ -34,7 +34,9 @@ const fullServer = function fullServer(req, resp) {
   const decoder = new StrDecoder("utf-8");
   let payloadBuffer = "";
 
-  /* Each time data is received (if any) via the Node stream, append payloadBuffer. */
+  /**
+   * Each time data is received (if any) via the Node stream, append payloadBuffer.
+   */
   req.on("data", data => {
     payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.
   });
@@ -54,7 +56,7 @@ const fullServer = function fullServer(req, resp) {
       queryStringObj,
       method,
       headers,
-      reqPayload: helpers.parseJsonToObject(payloadBuffer) // We don't want a thrown error.
+      reqPayload: helpers.parseJSONtoObj(payloadBuffer) // We don't want JSON.parse to throw error.
     };
 
     console.log(handlerFxn);

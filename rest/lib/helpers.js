@@ -4,7 +4,6 @@ const helpers = {};
 
 // SHA256
 helpers.hash = function hash(str) {
-  /* No cb fxn. Instead, it actually returns the value (instead of calling back). */
   if (typeof str !== "string" || !str.length > 0) {
     return false;
   }
@@ -18,3 +17,7 @@ helpers.hash = function hash(str) {
 };
 
 module.exports = helpers;
+/**
+ * Change string into JSON object or return 'false.'
+ * This is basically just wrapping JSON.parse in a try-catch.
+ */

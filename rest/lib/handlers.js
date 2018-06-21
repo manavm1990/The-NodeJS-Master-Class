@@ -53,11 +53,12 @@ handlers.users.getHandler = function getHandler(d, cb) {
     return;
   }
 
-  /* Make sure user doesn't already have a phone number data file. 
-  We do this by trying to read their data file. */
+  /**
+   *  Make sure user doesn't already have a phone number data file.
+   * We do this by trying to read their data file.
+   */
   crud.readDataFile("users", validatedFone, (err, data) => {
-    // Fone is name of JSON file
-    /* If error reading, it means that the user doesn't already exist! Good! */
+    // If error reading, it means that the user doesn't already exist!
     if (err) {
       // Hash the password using 'crypto.'
       const hashedPword = helpers.hash(validatedPword);
@@ -101,7 +102,6 @@ handlers.users.put = function get(d, cb) {};
 handlers.users.delete = function get(d, cb) {};
 
 handlers.ping = function ping(d, cb) {
-  /* This passes no data. So, as seen below, it will default to an empty object. */
   cb(200);
 };
 
