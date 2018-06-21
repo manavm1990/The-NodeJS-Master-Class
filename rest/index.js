@@ -6,9 +6,9 @@ const fs = require("fs");
 
 const config = require("./config");
 const handlers = require("./lib/handlers");
-// const dataMgr = require("./lib/dataMgr");
+// const crud = require("./lib/crud");
 
-// dataMgr.createRiteCloseFile(
+// crud.createRiteCloseFile(
 //   "test",
 //   "testFile",
 //   { test: "rite" },
@@ -17,15 +17,15 @@ const handlers = require("./lib/handlers");
 //   }
 // );
 
-// dataMgr.readDataFile("test", "testFile", (err, redResults) => {
+// crud.readDataFile("test", "testFile", (err, redResults) => {
 //   console.log(`Error results: ${err}. Red results: ${redResults}`);
 // });
 
-// dataMgr.updateFile("test", "testFile", { test: "update" }, err => {
+// crud.updateFile("test", "testFile", { test: "update" }, err => {
 //   console.log(`Errors: ${err}`);
 // });
 
-// dataMgr.deleteFile("test", "testFile", err => {
+// crud.deleteFile("test", "testFile", err => {
 //   console.log(`Errors: ${err}`);
 // });
 

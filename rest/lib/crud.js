@@ -2,19 +2,14 @@
 const fs = require("fs");
 const path = require("path"); // Normalizes paths
 
-const dataMgr = {};
+const crud = {};
 
 // Set up base directory for data folder.
-dataMgr.baseDir = path.join(__dirname, "/../.data");
+crud.baseDir = path.join(__dirname, "/../.data");
 
 /* Developer's Note: THIS WILL NOT CREATE THE DIRECTORY. THE DIRECTORY MUST ALREADY BE PRESENT. IT WILL ONLY CREATE THE FILE! */
-dataMgr.createRiteCloseFile = function createRriteCloseFile(
-  dir,
-  file,
-  data,
-  cb
-) {
-  const filePath = `${dataMgr.baseDir}/${dir}/${file}.json`;
+crud.createRiteCloseFile = function createRriteCloseFile(dir, file, data, cb) {
+  const filePath = `${crud.baseDir}/${dir}/${file}.json`;
 
   fs.open(filePath, "wx", err => {
     if (err) {
@@ -38,9 +33,9 @@ dataMgr.createRiteCloseFile = function createRriteCloseFile(
   });
 };
 
-dataMgr.readDataFile = function readFile(dir, file, cb) {
+crud.readDataFile = function readFile(dir, file, cb) {
   fs.readFile(
-    `${dataMgr.baseDir}/${dir}/${file}.json`,
+    `${crud.baseDir}/${dir}/${file}.json`,
     "utf-8",
     (err, redData) => {
       cb(err, redData);
@@ -48,8 +43,8 @@ dataMgr.readDataFile = function readFile(dir, file, cb) {
   );
 };
 
-dataMgr.updateFile = function updateFile(dir, file, data, cb) {
-  const filePath = `${dataMgr.baseDir}/${dir}/${file}.json`;
+crud.updateFile = function updateFile(dir, file, data, cb) {
+  const filePath = `${crud.baseDir}/${dir}/${file}.json`;
 
   /* 'r+' opens for reading/writing. It generates an error if the file doesn't yet exist. */
   fs.open(filePath, "r+", err => {
@@ -80,12 +75,12 @@ dataMgr.updateFile = function updateFile(dir, file, data, cb) {
   });
 };
 
-dataMgr.deleteFile = function deleteFile(dir, file, cb) {
-  fs.unlink(`${dataMgr.baseDir}/${dir}/${file}.json`, err => {
+crud.deleteFile = function deleteFile(dir, file, cb) {
+  fs.unlink(`${crud.baseDir}/${dir}/${file}.json`, err => {
     if (err) {
       cb(`Error deleting file: ${err}`);
     }
   });
 };
 
-module.exports = dataMgr; // Export the container object.
+module.exports = crud; // Export the container object.

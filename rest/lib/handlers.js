@@ -1,4 +1,5 @@
 // Dependencies
+const crud = require("./crud");
 
 // Handlers
 const handlers = {};
@@ -13,7 +14,7 @@ const handlers = {};
     !validatedFone ||
     !validatedPword ||
     !validatedTos
-  dataMgr.readDataFile("users", fone, (err, data) => {
+  crud.readDataFile("users", fone, (err, data) => {
       // Hash the password using 'crypto.'
       const hashedPword = helpers.hash(validatedPword);
         fname: validatedFname,
