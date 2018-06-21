@@ -24,22 +24,22 @@ handlers.users = function users(d, cb) {
 };
 
 handlers.users.post = function getHandler(d, cb) {
-  // Grab trimmed fields
-  const fname = d.payload.fname.trim();
-  const lname = d.payload.lname.trim();
-  const fone = d.payload.fone.trim();
-  const pword = d.payload.pword.trim();
-  const tos = d.payload.tos.trim();
+  // Developer's Note: Using 'obj destructuring' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+  const fname = d.reqPayload;
+  const lname = d.reqPayload;
+  const fone = d.reqPayload;
+  const pword = d.reqPayload;
+  const tos = d.reqPayload;
 
   // Server-side validation
   const validatedFname =
-    typeof fname === "string" && fname.length > 0 ? fname : false;
+    typeof fname === "string" && fname.trim().length > 0 ? fname : false;
   const validatedLname =
-    typeof lname === "string" && lname.length > 0 ? lname : false;
+    typeof lname === "string" && lname.trim().length > 0 ? lname : false;
   const validatedFone =
-    typeof fone === "string" && fone.length === 10 ? fone : false;
+    typeof fone === "string" && fone.trim().length === 10 ? fone : false;
   const validatedPword =
-    typeof password === "string" && pword.length > 0 ? pword : false;
+    typeof password === "string" && pword.trim().length > 0 ? pword : false;
   const validatedTos = typeof tos === "boolean" && tos === true ? tos : false;
 
   if (
