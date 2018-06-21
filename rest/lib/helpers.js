@@ -16,8 +16,8 @@ helpers.hash = function hash(str) {
   return hash256;
 };
 
-module.exports = helpers;
 /**
  * Change string into JSON object or return 'false.'
  * This is basically just wrapping JSON.parse in a try-catch.
  */
+module.exports = helpers;
