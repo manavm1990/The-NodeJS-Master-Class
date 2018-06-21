@@ -59,8 +59,6 @@ const fullServer = function fullServer(req, resp) {
       reqPayload: helpers.parseJSONtoObj(payloadBuffer) // We don't want JSON.parse to throw error.
     };
 
-    console.log(handlerFxn);
-
     handlerFxn(data, (statusCode, respPayload) => {
       // statusCode comes from above...
       const verifiedStatusCode =
