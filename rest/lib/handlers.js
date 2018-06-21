@@ -14,6 +14,8 @@ const handlers = {};
     !validatedPword ||
     !validatedTos
   dataMgr.readDataFile("users", fone, (err, data) => {
+      // Hash the password using 'crypto.'
+      const hashedPword = helpers.hash(validatedPword);
         fname: validatedFname,
         lname: validatedLname,
         fone: validatedFone,
