@@ -31,7 +31,8 @@ const handlers = require("./lib/handlers");
 
 // Request router
 const router = {
-  ping: handlers.ping
+  ping: handlers.ping,
+  users: handlers.users
 };
 
 const fullServer = function fullServer(req, resp) {
