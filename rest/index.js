@@ -6,28 +6,6 @@ const fs = require("fs");
 
 const config = require("./config");
 const handlers = require("./lib/handlers");
-// const crud = require("./lib/crud");
-
-// crud.createRiteCloseFile(
-//   "test",
-//   "testFile",
-//   { test: "rite" },
-//   riteResults => {
-//     console.log(`Rite results: ${riteResults}`);
-//   }
-// );
-
-// crud.readDataFile("test", "testFile", (err, redResults) => {
-//   console.log(`Error results: ${err}. Red results: ${redResults}`);
-// });
-
-// crud.updateFile("test", "testFile", { test: "update" }, err => {
-//   console.log(`Errors: ${err}`);
-// });
-
-// crud.deleteFile("test", "testFile", err => {
-//   console.log(`Errors: ${err}`);
-// });
 
 // Request router
 const router = {
