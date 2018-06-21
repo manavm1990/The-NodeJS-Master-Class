@@ -34,7 +34,7 @@ crud.createRiteCloseFile = function createRriteCloseFile(dir, file, data, cb) {
         return;
       }
 
-      cb(dataStr);
+      cb(false); // If no error, then we just pass 'false.'
     });
   });
 };
