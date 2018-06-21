@@ -23,8 +23,7 @@ handlers.users = function users(d, cb) {
   handlers.users[currMethodType](d, cb);
 };
 
-
-handlers.users.getHandler = function getHandler(d, cb) {
+handlers.users.post = function getHandler(d, cb) {
   // Grab trimmed fields
   const fname = d.payload.fname.trim();
   const lname = d.payload.lname.trim();
