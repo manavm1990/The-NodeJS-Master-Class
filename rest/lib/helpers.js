@@ -20,4 +20,12 @@ helpers.hash = function hash(str) {
  * Change string into JSON object or return 'false.'
  * This is basically just wrapping JSON.parse in a try-catch.
  */
+helpers.parseJSONtoObj = function parseJSONtoObj(str) {
+  try {
+    return JSON.parse(str);
+  } catch (error) {
+    return {};
+  }
+};
+
 module.exports = helpers;
