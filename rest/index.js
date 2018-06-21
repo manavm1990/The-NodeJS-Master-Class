@@ -4,7 +4,7 @@ const url = require("url");
 const StrDecoder = require("string_decoder").StringDecoder; // Constructors should start with capital
 const fs = require("fs");
 
-const config = require("./config");
+const config = require("./lib/config");
 const handlers = require("./lib/handlers");
 const helpers = require("./lib/helpers");
 
