@@ -89,12 +89,13 @@ handlers.users.get = function get(d, cb) {
    * Since this is a GET, we are working with queryStringObj, not reqPayload.
    * GET doesn't have payloads.
    */
-  const validatedFone = helpers.validateFone(d.queryStringObj.fone);
+  const { validatedFone } = helpers.validateData(d.queryStringObj);
+
   if (!validatedFone) {
     cb(400, { Error: "Missing fone!" });
     return;
   }
-
+  
   // Valid fone number received
   crud.readDataFile("users", validatedFone, (err, data) => {
     if (err) {
@@ -108,7 +109,21 @@ handlers.users.get = function get(d, cb) {
   });
 };
 
-handlers.users.put = function put(d, cb) {};
+/**
+ *  PUT is an 'update'.
+ * It uses payload, like POST.
+ */
+handlers.users.put = function put(d, cb) {
+  const validatedFone = helpers.validateFone(d.reqPayload.fone);
+  if (!validatedFone) {
+    cb(400, { Error: "Missing fone!" });
+    return;
+  }
+
+  // Valid fone number received
+  crud.updateFile('users', validatedFone, d, )
+};
+
 handlers.users.delete = function del(d, cb) {}; // Developer's Note: Unable to name this 'delete'...
 
 handlers.ping = function ping(d, cb) {
