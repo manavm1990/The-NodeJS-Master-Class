@@ -114,9 +114,21 @@ handlers.users.get = function get(d, cb) {
  * It uses payload, like POST.
  */
 handlers.users.put = function put(d, cb) {
-  const validatedFone = helpers.validateFone(d.reqPayload.fone);
-  if (!validatedFone) {
+  const validatedData = helpers.validateData(d.reqPayload);
+
+  /**
+   *  We continue ONLY If
+   *  we have a valid fone AND
+   *  at least one other piece of data for updating.
+   */
+  if (!validatedData.fone) {
     cb(400, { Error: "Missing fone!" });
+  } else if (
+    !validatedData.fname ||
+    !validatedData.lname ||
+    !validatedData.pword
+  ) {
+    cb(400, { Error: "Missing information to update!" });
     return;
   }
 
