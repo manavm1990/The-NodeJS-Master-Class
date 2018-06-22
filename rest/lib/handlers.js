@@ -103,7 +103,7 @@ handlers.users.get = function get(d, cb) {
   const validatedFone =
     typeof fone === "string" && fone.trim().length === 10 ? fone : false;
   if (!validatedFone) {
-    cb(400, { Error: "Invalid fone!" });
+    cb(400, { Error: "Missing fone!" });
     return;
   }
 
