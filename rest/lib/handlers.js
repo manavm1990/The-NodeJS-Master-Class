@@ -24,14 +24,14 @@ handlers.users = function users(d, cb) {
 };
 
 handlers.users.post = function postHandler(d, cb) {
-  const { validatedFname, validatedLname, validatedFone, validatedPword, validatedTos } = helpers.validateData(d.reqPayload);
+  const validatedData = helpers.validateData(d.reqPayload);
 
   if (
-    !validatedFname ||
-    !validatedLname ||
-    !validatedFone ||
-    !validatedPword ||
-    !validatedTos
+    !validatedData.fname ||
+    !validatedData.lname ||
+    !validatedData.fone ||
+    !validatedData.pword ||
+    !validatedData.tos
   ) {
     cb(400, { Error: "Missing required fields!" }); // Should send back a data object - not just string.
     return;
@@ -41,32 +41,23 @@ handlers.users.post = function postHandler(d, cb) {
    * Make sure user doesn't already have a phone number data file.
    * We do this by trying to read their data file.
    */
-  crud.readDataFile("users", validatedFone, (err, data) => {
+  crud.readDataFile("users", validatedData.fone, (err, data) => {
     // If error reading, it means that the user doesn't already exist!
     if (err) {
       // Hash the password using 'crypto.'
-      const hashedPword = helpers.hash(validatedPword);
+      validatedData.pword = helpers.hash(validatedData.pword);
 
       // Make sure password got hashed
-      if (!hashedPword) {
+      if (!validatedData.pword) {
         cb(500, { Error: "Password didn't get hashed!" });
         return;
       }
 
-      // Create user object
-      const userObj = {
-        fname: validatedFname,
-        lname: validatedLname,
-        fone: validatedFone,
-        pword: hashedPword,
-        tos: validatedTos
-      };
-
       // Store the newly created user in their own JSON file witin 'users' directory.
       crud.createRiteCloseFile(
         "users",
-        validatedFone,
-        userObj,
+        validatedData.fone,
+        validatedData,
         createUserErr => {
           if (createUserErr) {
             console.log(`Error creating the new user: ${createUserErr}`);
@@ -102,6 +93,7 @@ handlers.users.get = function get(d, cb) {
       cb(404); // User not found!
       return;
     }
+
     // Remove hashedPword from the data object before returning
     const redData = data;
     delete redData.pword;
