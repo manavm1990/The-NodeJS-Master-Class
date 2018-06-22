@@ -29,4 +29,8 @@ helpers.parseJSONtoObj = function parseJSONtoObj(str) {
   }
 };
 
+helpers.validateFone = function validateFone(str) {
+  return typeof str === "string" && str.trim().length === 10 ? str : false;
+};
+
 module.exports = helpers;

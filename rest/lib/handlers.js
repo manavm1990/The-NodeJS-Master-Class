@@ -99,9 +99,7 @@ handlers.users.get = function get(d, cb) {
    * Since this is a GET, we are working with queryStringObj, not reqPayload.
    * GET doesn't have payloads.
    */
-  const { fone } = d.queryStringObj;
-  const validatedFone =
-    typeof fone === "string" && fone.trim().length === 10 ? fone : false;
+  const validatedFone = helpers.validateFone(d.queryStringObj.fone);
   if (!validatedFone) {
     cb(400, { Error: "Missing fone!" });
     return;
