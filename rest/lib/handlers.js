@@ -68,7 +68,8 @@ handlers.users.post = function postHandler(d, cb) {
         fname: validatedFname,
         lname: validatedLname,
         fone: validatedFone,
-        pword: hashedPword
+        pword: hashedPword,
+        tos: validatedTos
       };
 
       // Store the newly created user in their own JSON file witin 'users' directory.
