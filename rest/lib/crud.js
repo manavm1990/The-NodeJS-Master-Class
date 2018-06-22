@@ -1,6 +1,7 @@
 // Dependencies
 const fs = require("fs");
 const path = require("path"); // Normalizes paths
+const helpers = require("./helpers");
 
 const crud = {};
 
@@ -44,6 +45,12 @@ crud.readDataFile = function readFile(dir, file, cb) {
     `${crud.baseDir}/${dir}/${file}.json`,
     "utf-8",
     (err, redData) => {
+      if (!err && redData) {
+        const parsedRedData = helpers.parseJSONtoObj(redData);
+        cb(false, parsedRedData); // Pass 'false' b/c no error.
+        return;
+      }
+      // If err, send back 'raw', unparsed data.
       cb(err, redData);
     }
   );
