@@ -80,15 +80,15 @@ handlers.users.get = function get(d, cb) {
    * Since this is a GET, we are working with queryStringObj, not reqPayload.
    * GET doesn't have payloads.
    */
-  const { validatedFone } = helpers.validateData(d.queryStringObj);
+  const { fone } = helpers.validateData(d.queryStringObj);
 
-  if (!validatedFone) {
+  if (!fone) {
     cb(400, { Error: "Missing fone!" });
     return;
   }
   
   // Valid fone number received
-  crud.readDataFile("users", validatedFone, (err, data) => {
+  crud.readDataFile("users", fone, (err, data) => {
     if (err) {
       cb(404); // User not found!
       return;
