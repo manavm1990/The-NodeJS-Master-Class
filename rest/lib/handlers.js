@@ -23,7 +23,7 @@ handlers.users = function users(d, cb) {
   handlers.users[currMethodType](d, cb);
 };
 
-handlers.users.post = function getHandler(d, cb) {
+handlers.users.post = function postHandler(d, cb) {
   const { fname, lname, fone, pword, tos } = d.reqPayload;
 
   const validatedFname =
