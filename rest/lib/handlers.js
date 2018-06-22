@@ -48,7 +48,7 @@ handlers.users.post = function postHandler(d, cb) {
   }
 
   /**
-   *  Make sure user doesn't already have a phone number data file.
+   * Make sure user doesn't already have a phone number data file.
    * We do this by trying to read their data file.
    */
   crud.readDataFile("users", validatedFone, (err, data) => {
@@ -91,7 +91,35 @@ handlers.users.post = function postHandler(d, cb) {
   });
 };
 
-handlers.users.get = function get(d, cb) {};
+// GETs are allowed for authenticated users to access their own object.
+handlers.users.get = function get(d, cb) {
+  /**
+   *  Verify that the fone number is valid.
+   * Since this is a GET, we are working with queryStringObj, not reqPayload.
+   * GET doesn't have payloads.
+   */
+  const { fone } = d.queryStringObj;
+  console.log(fone);
+  const validatedFone =
+    typeof fone === "string" && fone.trim().length === 10 ? fone : false;
+  if (!fone) {
+    cb(400, { Error: "Invalid fone!" });
+    return;
+  }
+
+  // Valid fone number received
+  crud.readDataFile("users", validatedFone, (err, data) => {
+    if (err) {
+      cb(404); // User not found!
+      return;
+    }
+    // Remove hashedPword from the data object before returning
+    const redData = data;
+    delete redData.pword;
+    cb(200, redData);
+  });
+};
+
 handlers.users.put = function put(d, cb) {};
 handlers.users.delete = function del(d, cb) {}; // Developer's Note: Unable to name this 'delete'...
 
