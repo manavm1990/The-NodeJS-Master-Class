@@ -24,17 +24,7 @@ handlers.users = function users(d, cb) {
 };
 
 handlers.users.post = function postHandler(d, cb) {
-  const { fname, lname, fone, pword, tos } = d.reqPayload;
-
-  const validatedFname =
-    typeof fname === "string" && fname.trim().length > 0 ? fname : false;
-  const validatedLname =
-    typeof lname === "string" && lname.trim().length > 0 ? lname : false;
-  const validatedFone =
-    typeof fone === "string" && fone.trim().length === 10 ? fone : false;
-  const validatedPword =
-    typeof pword === "string" && pword.trim().length > 0 ? pword : false;
-  const validatedTos = typeof tos === "boolean" && tos === true ? tos : false;
+  const { validatedFname, validatedLname, validatedFone, validatedPword, validatedTos } = helpers.validateData(d.reqPayload);
 
   if (
     !validatedFname ||
