@@ -100,7 +100,6 @@ handlers.users.get = function get(d, cb) {
    * GET doesn't have payloads.
    */
   const { fone } = d.queryStringObj;
-  console.log(fone);
   const validatedFone =
     typeof fone === "string" && fone.trim().length === 10 ? fone : false;
   if (!fone) {
