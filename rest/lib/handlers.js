@@ -109,6 +109,13 @@ handlers.users.get = function get(d, cb) {
 handlers.users.put = function put(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
+  // Clean up validatedData so that we only include fields with 'real' values.
+  Object.entries(validatedData).forEach(entry => {
+    if (entry[1] === false) {
+      delete validatedData[entry[0]];
+    }
+  });
+
   /**
    *  We continue ONLY If
    *  we have a valid fone AND
@@ -116,14 +123,16 @@ handlers.users.put = function put(d, cb) {
    */
   if (!validatedData.fone) {
     cb(400, { Error: "Missing fone!" });
-  } else if (
-    !validatedData.fname ||
-    !validatedData.lname ||
-    !validatedData.pword
-  ) {
-    cb(400, { Error: "Missing information to update!" });
     return;
   }
+  if (validatedData.fname || validatedData.lname || validatedData.pword) {
+    // Verify that we have an existing user
+    crud.readDataFile("users", validatedData.fone, (err, udata) => {
+      if (err || !udata) {
+        // Sending back 400 instead of 404 for better feedback on a PUT.
+        cb(400, { Error: "User not found!" });
+        return;
+      }
 
   // Valid fone number received
   crud.updateFile('users', validatedFone, d, )
