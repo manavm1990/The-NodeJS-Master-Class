@@ -87,7 +87,7 @@ handlers.users.get = function get(d, cb) {
     cb(400, { Error: "Missing fone!" });
     return;
   }
-  
+
   // Valid fone number received
   crud.readDataFile("users", fone, (err, data) => {
     if (err) {
@@ -103,7 +103,7 @@ handlers.users.get = function get(d, cb) {
 };
 
 /**
- *  PUT is an 'update'.
+ * PUT is an 'update'.
  * It uses payload, like POST.
  */
 handlers.users.put = function put(d, cb) {
@@ -143,6 +143,9 @@ handlers.users.put = function put(d, cb) {
         validatedData.pword = helpers.hash(validatedData.pword);
       }
 
+      // We are ready to merge/update the data.
+      Object.assign(udata, udata, validatedData);
+    });
   } else {
     cb(400, { Error: "Missing information to update!" });
   }
