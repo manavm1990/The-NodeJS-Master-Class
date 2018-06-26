@@ -26,6 +26,7 @@ handlers.users = function users(d, cb) {
 handlers.users.post = function postHandler(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
+  // We still need to make sure that a value was 'validated' for each of the object's fields.
   if (
     !validatedData.fname ||
     !validatedData.lname ||
