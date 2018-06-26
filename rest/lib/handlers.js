@@ -136,6 +136,13 @@ handlers.users.put = function put(d, cb) {
         }
       });
 
+      /**
+       *  If we are changing a password, let's be sure to hash that first before updating.
+       */
+      if (validatedData.pword) {
+        validatedData.pword = helpers.hash(validatedData.pword);
+      }
+
   } else {
     cb(400, { Error: "Missing information to update!" });
   }
