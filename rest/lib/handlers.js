@@ -134,8 +134,11 @@ handlers.users.put = function put(d, cb) {
         return;
       }
 
-  // Valid fone number received
-  crud.updateFile('users', validatedFone, d, )
+      console.log(udata);
+    });
+  } else {
+    cb(400, { Error: "Missing information to update!" });
+  }
 };
 
 handlers.users.delete = function del(d, cb) {}; // Developer's Note: Unable to name this 'delete'...
