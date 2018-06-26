@@ -109,13 +109,6 @@ handlers.users.get = function get(d, cb) {
 handlers.users.put = function put(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
-  // Clean up validatedData so that we only include fields with 'real' values.
-  Object.entries(validatedData).forEach(entry => {
-    if (entry[1] === false) {
-      delete validatedData[entry[0]];
-    }
-  });
-
   /**
    *  We continue ONLY If
    *  we have a valid fone AND
@@ -134,8 +127,15 @@ handlers.users.put = function put(d, cb) {
         return;
       }
 
-      console.log(udata);
-    });
+      /**
+       * Now that we know we have a valid user, let's clean up the validatedData in prepartion to 'merge'/overwrite some data.
+       */
+      Object.entries(validatedData).forEach(entry => {
+        if (entry[1] === false) {
+          delete validatedData[entry[0]];
+        }
+      });
+
   } else {
     cb(400, { Error: "Missing information to update!" });
   }
