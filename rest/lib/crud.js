@@ -85,7 +85,8 @@ crud.updateFile = function updateFile(dir, file, data, cb) {
           return;
         }
 
-        cb(dataStr);
+        // If no error, return false.
+        cb(false);
       });
     });
   });
