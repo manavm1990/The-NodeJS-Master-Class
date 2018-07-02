@@ -6,6 +6,7 @@ const crud = require("./crud");
 const handlers = {};
 
 handlers.users = {};
+handlers.tokens = {};
 
 // Users handler
 handlers.users = function users(d, cb) {
@@ -21,6 +22,19 @@ handlers.users = function users(d, cb) {
   }
 
   handlers.users[currMethodType](d, cb);
+};
+
+// Tokens handler
+handlers.tokens = function tokens(d, cb) {
+  const accMethodTypes = ["get", "post", "put", "delete"];
+  const currMethodType = d.method.toLowerCase();
+
+  if (accMethodTypes.indexOf(currMethodType) === -1) {
+    cb(405);
+    return;
+  }
+
+  handlers.tokens[currMethodType](d, cb);
 };
 
 handlers.ping = function ping(d, cb) {
@@ -198,5 +212,7 @@ handlers.users.delete = function del(d, cb) {
   });
 };
 
+// Tokens
+handlers.tokens.post = function postHandler(d, cb) {};
 
 module.exports = handlers;
