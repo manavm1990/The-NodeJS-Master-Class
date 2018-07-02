@@ -96,7 +96,10 @@ crud.deleteFile = function deleteFile(dir, file, cb) {
   fs.unlink(`${crud.baseDir}/${dir}/${file}.json`, err => {
     if (err) {
       cb(`Error deleting file: ${err}`);
+      return;
     }
+
+    cb(false);
   });
 };
 
