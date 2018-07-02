@@ -145,6 +145,15 @@ handlers.users.put = function put(d, cb) {
 
       // We are ready to merge/update the data.
       Object.assign(udata, udata, validatedData);
+
+      // Store the updates
+      crud.updateFile("users", validatedData.fone, udata, updateErr => {
+        if (updateErr) {
+          cb(500, { Error: "Error while updating user data!" });
+          return;
+        }
+        cb(200);
+      });
     });
   } else {
     cb(400, { Error: "Missing information to update!" });
