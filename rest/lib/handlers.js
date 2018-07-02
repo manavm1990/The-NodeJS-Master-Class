@@ -160,7 +160,33 @@ handlers.users.put = function put(d, cb) {
   }
 };
 
-handlers.users.delete = function del(d, cb) {}; // Developer's Note: Unable to name this 'delete'...
+handlers.users.delete = function del(d, cb) {
+  // Check for valid fone number, similar to GET above
+  const { fone } = helpers.validateData(d.queryStringObj);
+
+  if (!fone) {
+    cb(400, { Error: "Missing fone!" });
+    return;
+  }
+
+  // Make sure user exists
+  crud.readDataFile("users", fone, (err, data) => {
+    if (err || !data) {
+      cb(400, { Error: "Could not find specified user!" });
+      return;
+    }
+
+    // Try to delete users
+    crud.deleteFile("users", fone, delErr => {
+      if (delErr) {
+        cb(500, { Error: "Could not delete specified user!" });
+        return;
+      }
+
+      cb(200);
+    });
+  });
+};
 
 handlers.ping = function ping(d, cb) {
   cb(200);
