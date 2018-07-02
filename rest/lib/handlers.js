@@ -23,7 +23,17 @@ handlers.users = function users(d, cb) {
   handlers.users[currMethodType](d, cb);
 };
 
-handlers.users.post = function postHandler(d, cb) {
+handlers.ping = function ping(d, cb) {
+  cb(200);
+};
+
+// 404 handler
+handlers.notFound = function notFound(d, cb) {
+  cb(404); // no payload if 'bad' page
+};
+
+// Users
+handlers.users.post = function post(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
   // We still need to make sure that a value was 'validated' for each of the object's fields.
@@ -188,13 +198,5 @@ handlers.users.delete = function del(d, cb) {
   });
 };
 
-handlers.ping = function ping(d, cb) {
-  cb(200);
-};
-
-// 404 handler
-handlers.notFound = function notFound(d, cb) {
-  cb(404); // no payload if 'bad' page
-};
 
 module.exports = handlers;
