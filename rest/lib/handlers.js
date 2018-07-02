@@ -90,7 +90,7 @@ handlers.users.get = function get(d, cb) {
 
   // Valid fone number received
   crud.readDataFile("users", fone, (err, data) => {
-    if (err) {
+    if (err || !data) {
       cb(404); // User not found!
       return;
     }
