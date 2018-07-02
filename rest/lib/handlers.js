@@ -37,6 +37,7 @@ handlers.tokens = function tokens(d, cb) {
   handlers.tokens[currMethodType](d, cb);
 };
 
+// Other handlers
 handlers.ping = function ping(d, cb) {
   cb(200);
 };
