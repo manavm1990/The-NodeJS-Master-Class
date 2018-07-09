@@ -15,6 +15,7 @@ const router = {
   tokens: handlers.tokens
 };
 
+// Prep/process the request and response stuff
 const fullServer = function fullServer(req, resp) {
   const parsedURL = url.parse(req.url, true);
 
