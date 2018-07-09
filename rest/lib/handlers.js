@@ -169,7 +169,8 @@ handlers.users.put = function put(d, cb) {
       }
 
       // We are ready to merge/update the data.
-      Object.assign(udata, udata, validatedData);
+      // Object.assign(udata, udata, validatedData);
+      udata = { ...udata, ...validatedData };
 
       // Store the updates
       crud.updateFile("users", validatedData.fone, udata, updateErr => {
