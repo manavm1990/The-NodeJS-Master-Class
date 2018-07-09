@@ -86,7 +86,7 @@ const httpServer = http.createServer((req, resp) => {
 });
 
 httpServer.listen(config.httpPort, () => {
-  console.log(`Listening on port: ${config.httpPort}`);
+  console.log(`HTTP Server listening on port: ${config.httpPort}`);
 });
 
 const httpsServerOptions = {
@@ -100,5 +100,5 @@ const httpsServer = https.createServer(httpsServerOptions, (req, resp) => {
 });
 
 httpsServer.listen(config.httpsPort, () => {
-  console.log(`Listening on port: ${config.httpsPort}`);
+  console.log(`HTTPS Server listening on port: ${config.httpsPort}`);
 });
