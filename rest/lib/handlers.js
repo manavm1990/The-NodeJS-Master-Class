@@ -11,6 +11,7 @@ handlers.tokens = {};
 // Users handler
 handlers.users = function users(d, cb) {
   // Limit the types of requests users can make
+  // Developer's Note: If these are always the acceptable method types, then might be able to consolidate this fxn. with tokens fxn. et. al.
   const accMethodTypes = ["get", "post", "put", "delete"];
 
   const currMethodType = d.method.toLowerCase();
