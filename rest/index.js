@@ -60,23 +60,14 @@ const fullServer = function fullServer(req, resp) {
       reqPayload: helpers.parseJSONtoObj(payloadBuffer) // We don't want JSON.parse to throw error.
     };
 
-    handlerFxn(data, (statusCode, respPayload) => {
-      // statusCode comes from above...
-      const verifiedStatusCode =
-        typeof statusCode !== "number" ? 200 : statusCode;
-
-      const verifiedPayload =
-        typeof respPayload !== "object" ? {} : respPayload;
-
-      const verifiedPayloadStr = JSON.stringify(verifiedPayload);
+    handlerFxn(data, (statusCode = 200, respPayload = {}) => {
+      const payloadStr = JSON.stringify(respPayload);
 
       resp.setHeader("Content-Type", "application/json");
-      resp.writeHead(verifiedStatusCode);
-      resp.end(verifiedPayloadStr);
+      resp.writeHead(statusCode);
+      resp.end(payloadStr);
 
-      console.log(
-        `Here's the response: ${verifiedStatusCode} and ${verifiedPayloadStr}`
-      );
+      console.log(`Here's the response: ${statusCode} and ${payloadStr}`);
     });
   });
 };
