@@ -77,7 +77,7 @@ handlers.users.post = function post(d, cb) {
         return;
       }
 
-      // Store the newly created user in their own JSON file witin 'users' directory.
+      // Store the newly created user in their own JSON file within 'users' directory.
       crud.createRiteCloseFile(
         "users",
         validatedData.fone,
@@ -167,7 +167,6 @@ handlers.users.put = function put(d, cb) {
       }
 
       // We are ready to merge/update the data.
-      // Object.assign(udata, udata, validatedData);
       udata = { ...udata, ...validatedData };
 
       // Store the updates

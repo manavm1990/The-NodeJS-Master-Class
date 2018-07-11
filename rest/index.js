@@ -41,6 +41,7 @@ const fullServer = function fullServer(req, resp) {
 
   /**
    * Each time data is received (if any) via the Node stream, append payloadBuffer.
+   * This references the REQUEST payload...
    */
   req.on("data", data => {
     payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.

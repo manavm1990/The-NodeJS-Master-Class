@@ -50,6 +50,7 @@ crud.readDataFile = function readFile(dir, file, cb) {
         cb(false, parsedRedData); // Pass 'false' b/c no error.
         return;
       }
+
       // If err, send back 'raw', unparsed data.
       cb(err, redData);
     }
@@ -68,8 +69,6 @@ crud.updateFile = function updateFile(dir, file, data, cb) {
       cb("Could not open file for writing. Does it exist?", err);
       return;
     }
-
-    // Again, turn the data into a string.
     const dataStr = JSON.stringify(data);
 
     // Truncate the file
