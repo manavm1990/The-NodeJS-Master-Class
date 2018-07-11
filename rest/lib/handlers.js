@@ -11,28 +11,27 @@ handlers.tokens = {};
 // Users handler
 handlers.users = function users(d, cb) {
   // Limit the types of requests users can make
-  // Developer's Note: If these are always the acceptable method types, then might be able to consolidate this fxn. with tokens fxn. et. al.
-  const accMethodTypes = ["get", "post", "put", "delete"];
+  const { method } = d;
 
-  if (accMethodTypes.indexOf(currMethodType) === -1) {
-    // -1 means that it was not found (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
+  // https://css-tricks.com/snippets/javascript/check-if-function-exists-before-calling/
+  if (typeof handlers.users[method] !== "function") {
     cb(405);
     return;
   }
-
-  handlers.users[currMethodType](d, cb);
+  handlers.users[method](d, cb);
 };
 
 // Tokens handler
 handlers.tokens = function tokens(d, cb) {
-  const accMethodTypes = ["get", "post", "put", "delete"];
+  // Limit the types of requests users can make
+  const { method } = d;
 
-  if (accMethodTypes.indexOf(currMethodType) === -1) {
+  // https://css-tricks.com/snippets/javascript/check-if-function-exists-before-calling/
+  if (typeof handlers.tokens[method] !== "function") {
     cb(405);
     return;
   }
-
-  handlers.tokens[currMethodType](d, cb);
+  handlers.tokens[method](d, cb);
 };
 
 // Other handlers
