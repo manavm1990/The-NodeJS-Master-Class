@@ -14,8 +14,6 @@ handlers.users = function users(d, cb) {
   // Developer's Note: If these are always the acceptable method types, then might be able to consolidate this fxn. with tokens fxn. et. al.
   const accMethodTypes = ["get", "post", "put", "delete"];
 
-  const currMethodType = d.method.toLowerCase();
-
   if (accMethodTypes.indexOf(currMethodType) === -1) {
     // -1 means that it was not found (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
     cb(405);
@@ -28,7 +26,6 @@ handlers.users = function users(d, cb) {
 // Tokens handler
 handlers.tokens = function tokens(d, cb) {
   const accMethodTypes = ["get", "post", "put", "delete"];
-  const currMethodType = d.method.toLowerCase();
 
   if (accMethodTypes.indexOf(currMethodType) === -1) {
     cb(405);

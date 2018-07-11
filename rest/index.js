@@ -26,8 +26,11 @@ const fullServer = function fullServer(req, resp) {
   // Get query string as an Object
   const queryStringObj = parsedURL.query;
 
-  // Get the HTTP method
-  const method = req.method.toUpperCase();
+  /**
+   * Get the HTTP method.
+   * Make it lower case for simplicity.
+   */
+  const method = req.method.toLowerCase();
 
   // Get the headers from user request
   const { headers } = req;
