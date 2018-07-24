@@ -220,6 +220,13 @@ handlers.tokens.post = function post(d, cb) {
     return;
   }
 
+  // Lookup user by fone number
+  crud.readDataFile("users", validatedData.fone, (err, udata) => {
+    if (err || !udata) {
+      cb(400, { Error: "User not found!" });
+      return;
+    }
+
 };
 
 handlers.tokens.get = function get(d, cb) {};
