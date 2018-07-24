@@ -48,7 +48,7 @@ handlers.notFound = function notFound(d, cb) {
 handlers.users.post = function post(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
-  // We still need to make sure that a value was 'validated' for each of the object's fields.
+  // We check if validateData() returned any 'falses.'
   if (
     !validatedData.fname ||
     !validatedData.lname ||

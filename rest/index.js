@@ -35,7 +35,7 @@ const fullServer = function fullServer(req, resp) {
   // Get the headers from user request
   const { headers } = req;
 
-  // Process any payload
+  // Process any client/request payload sent in
   const decoder = new StrDecoder("utf-8");
   let payloadBuffer = "";
 
