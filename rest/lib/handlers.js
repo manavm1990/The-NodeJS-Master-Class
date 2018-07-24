@@ -211,12 +211,13 @@ handlers.users.delete = function del(d, cb) {
 };
 
 // Tokens
-handlers.tokens.post = function postHandler(d, cb) {};
+handlers.tokens.post = function post(d, cb) {
+};
 
-handlers.tokens.get = function postHandler(d, cb) {};
+handlers.tokens.get = function get(d, cb) {};
 
-handlers.tokens.put = function postHandler(d, cb) {};
+handlers.tokens.put = function put(d, cb) {};
 
-handlers.tokens.delete = function postHandler(d, cb) {};
+handlers.tokens.delete = function del(d, cb) {};
 
 module.exports = handlers;
