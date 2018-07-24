@@ -47,4 +47,14 @@ helpers.validateData = function validateData(d) {
   };
 };
 
+helpers.createTokenID = function createTokenID(len) {
+  crypto.randomBytes(len, (err, buff) => {
+    if (err) {
+      return false;
+    }
+
+    return buff;
+  });
+};
+
 module.exports = helpers;
