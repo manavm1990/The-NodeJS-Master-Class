@@ -227,6 +227,12 @@ handlers.tokens.post = function post(d, cb) {
       return;
     }
 
+    // If user exists, we can proceed with hashing and comparing passwords.
+    const hashedPword = helpers.hash(validatedData.pword);
+    if (hashedPword !== udata.pword) {
+      cb(404, { Error: "Not authorized!" });
+    }
+  });
 };
 
 handlers.tokens.get = function get(d, cb) {};
