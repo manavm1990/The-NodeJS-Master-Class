@@ -231,6 +231,7 @@ handlers.tokens.post = function post(d, cb) {
     const hashedPword = helpers.hash(validatedData.pword);
     if (hashedPword !== udata.pword) {
       cb(404, { Error: "Not authorized!" });
+      return;
     }
   });
 };
