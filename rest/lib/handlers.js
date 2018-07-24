@@ -212,6 +212,14 @@ handlers.users.delete = function del(d, cb) {
 
 // Tokens
 handlers.tokens.post = function post(d, cb) {
+  // Validate phone and password from token
+  const validatedData = helpers.validateData(d.reqPayload);
+
+  if (!validatedData.fone || !validatedData.pword) {
+    cb(400, { Error: "Missing required fields!" }); // Should send back a data object - not just string.
+    return;
+  }
+
 };
 
 handlers.tokens.get = function get(d, cb) {};
