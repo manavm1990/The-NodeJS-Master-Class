@@ -340,6 +340,28 @@ handlers.tokens.put = function put(d, cb) {
   });
 };
 
-handlers.tokens.delete = function del(d, cb) {};
+handlers.tokens.delete = function del(d, cb) {
+  const { id } = helpers.validateData(d.queryStringObj);
+
+  if (!id) {
+    cb(400, { Error: "Missing token id!" });
+  }
+
+  crud.readDataFile("tokens", id, (err, data) => {
+    if (err || !data) {
+      cb(400, { Error: "Could not find specified token!" });
+      return;
+    }
+
+    crud.deleteFile("tokens", id, delErr => {
+      if (delErr) {
+        cb(500, { Error: "Could not delete specified token!" });
+        return;
+      }
+
+      cb(200);
+    });
+  });
+};
 
 module.exports = handlers;
