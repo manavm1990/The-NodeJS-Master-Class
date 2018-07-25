@@ -272,7 +272,30 @@ handlers.tokens.post = function post(d, cb) {
   });
 };
 
-handlers.tokens.get = function get(d, cb) {};
+/**
+ * Validate an incoming token.
+ * This is similar to validating fone number from users' GET handler.
+ */
+handlers.tokens.get = function get(d, cb) {
+  const { id } = helpers.validateData(d.queryStringObj);
+
+  if (!id) {
+    cb(400, { Error: "Bad token ID data!" });
+    return;
+  }
+
+  // Valid id received
+  console.log(id);
+  crud.readDataFile("tokens", id, (err, data) => {
+    console.log(data);
+    if (err || !data) {
+      cb(404); // Token not found!
+      return;
+    }
+
+    cb(200, data);
+  });
+};
 
 handlers.tokens.put = function put(d, cb) {};
 
