@@ -285,9 +285,7 @@ handlers.tokens.get = function get(d, cb) {
   }
 
   // Valid id received
-  console.log(id);
   crud.readDataFile("tokens", id, (err, data) => {
-    console.log(data);
     if (err || !data) {
       cb(404); // Token not found!
       return;
