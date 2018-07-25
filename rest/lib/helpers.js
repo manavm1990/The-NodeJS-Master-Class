@@ -27,7 +27,7 @@ helpers.parseJSONtoObj = function parseJSONtoObj(str) {
 };
 
 helpers.validateData = function validateData(d) {
-  let { fname, lname, fone, pword, tos, id, expires } = d;
+  let { fname, lname, fone, pword, tos, id, expires, extend } = d;
 
   fname =
     typeof fname === "string" && fname.trim().length > 0 ? fname.trim() : false;
@@ -51,6 +51,7 @@ helpers.validateData = function validateData(d) {
    */
   id = typeof id === "string" && id.trim().length === 40 ? id : false;
   expires = typeof expires === "number" ? expires : false;
+  extend = extend === true ? extend : false;
 
   return {
     fname,
@@ -59,7 +60,8 @@ helpers.validateData = function validateData(d) {
     pword,
     tos,
     id,
-    expires
+    expires,
+    extend
   };
 };
 
