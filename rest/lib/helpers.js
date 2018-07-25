@@ -27,20 +27,39 @@ helpers.parseJSONtoObj = function parseJSONtoObj(str) {
 };
 
 helpers.validateData = function validateData(d) {
-  let { fname, lname, fone, pword, tos } = d;
+  let { fname, lname, fone, pword, tos, id, expires } = d;
 
-  fname = typeof fname === "string" && fname.trim().length > 0 ? fname : false;
-  lname = typeof lname === "string" && lname.trim().length > 0 ? lname : false;
-  fone = typeof fone === "string" && fone.trim().length === 10 ? fone : false;
-  pword = typeof pword === "string" && pword.trim().length > 0 ? pword : false;
+  fname =
+    typeof fname === "string" && fname.trim().length > 0 ? fname.trim() : false;
+  lname =
+    typeof lname === "string" && lname.trim().length > 0 ? lname.trim() : false;
+  fone =
+    typeof fone === "string" && fone.trim().length === 10 ? fone.trim() : false;
+  pword =
+    typeof pword === "string" && pword.trim().length > 0 ? pword.trim() : false;
   tos = typeof tos === "boolean" && tos === true ? tos : false;
+
+  /**
+   * Developer's Note: Apparently,
+   * the returned token is always 2x the length passed in to createTokenID().
+   *
+   * For now, we are hard-coding this as 20,
+   * but this could maybe a variable in a config file or something...
+   * ... or even have random length.
+   *
+   * But, with random, we couldn't validate with length in here.
+   */
+  id = typeof id === "string" && id.trim().length === 40 ? id : false;
+  expires = typeof expires === "number" ? expires : false;
 
   return {
     fname,
     lname,
     fone,
     pword,
-    tos
+    tos,
+    id,
+    expires
   };
 };
 
