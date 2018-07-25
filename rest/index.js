@@ -12,7 +12,8 @@ const helpers = require("./lib/helpers");
 const router = {
   ping: handlers.ping,
   users: handlers.users,
-  tokens: handlers.tokens
+  tokens: handlers.tokens,
+  checks: handlers.checks
 };
 
 // Prep/process the request and response stuff

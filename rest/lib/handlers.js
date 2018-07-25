@@ -34,6 +34,18 @@ handlers.tokens = function tokens(d, cb) {
   handlers.tokens[method](d, cb);
 };
 
+// Checks handler
+handlers.checks = function checks(d, cb) {
+  const { method } = d;
+
+  if (typeof handlers.checks[method] !== "function") {
+    cb(405);
+    return;
+  }
+
+  handlers.checks[method](d, cb);
+};
+
 // Other handlers
 handlers.ping = function ping(d, cb) {
   cb(200);
