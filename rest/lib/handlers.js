@@ -295,7 +295,51 @@ handlers.tokens.get = function get(d, cb) {
   });
 };
 
-handlers.tokens.put = function put(d, cb) {};
+/**
+ * PUT used to extend token's expiration.
+ * We only accept a 'true' for extend request from user.
+ * Then, token is extended by 1 hour.
+ */
+handlers.tokens.put = function put(d, cb) {
+  // USES PAYLOAD, NOT queryStringObj!!!
+  const { id, extend } = helpers.validateData(d.reqPayload);
+
+  if (!id || !extend) {
+    cb(400, { Error: "Missing required fields and/or invalid fields!" });
+    return;
+  }
+
+  crud.readDataFile("tokens", id, (err, data) => {
+    if (err || !data) {
+      cb(400, { Error: "Token is not valid!" });
+      return;
+    }
+
+    // Grab current expiration from
+    let { expires } = data;
+
+    // Cannot extend an expired token!
+    if (expires <= Date.now()) {
+      cb(400, { Error: "Expired token!" });
+      return;
+    }
+    console.log(expires);
+    expires = Date.now() + 1000 * 60 * 60;
+    console.log(expires);
+    const extendedToken = { ...data, expires };
+
+    console.log(extendedToken.expires);
+
+    crud.updateFile("tokens", extendedToken.id, extendedToken, updateErr => {
+      if (updateErr) {
+        cb(500, { Error: "Error while extending token!" });
+        return;
+      }
+
+      cb(200);
+    });
+  });
+};
 
 handlers.tokens.delete = function del(d, cb) {};
 
