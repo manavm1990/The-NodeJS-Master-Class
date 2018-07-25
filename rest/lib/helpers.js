@@ -38,17 +38,6 @@ helpers.validateData = function validateData(d) {
   pword =
     typeof pword === "string" && pword.trim().length > 0 ? pword.trim() : false;
   tos = typeof tos === "boolean" && tos === true ? tos : false;
-
-  /**
-   * Developer's Note: Apparently,
-   * the returned token is always 2x the length passed in to createTokenID().
-   *
-   * For now, we are hard-coding this as 20,
-   * but this could maybe a variable in a config file or something...
-   * ... or even have random length.
-   *
-   * But, with random, we couldn't validate with length in here.
-   */
   id = typeof id === "string" && id.trim().length === 40 ? id : false;
   expires = typeof expires === "number" ? expires : false;
   extend = extend === true ? extend : false;

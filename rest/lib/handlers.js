@@ -183,7 +183,6 @@ handlers.users.put = function put(d, cb) {
 };
 
 handlers.users.delete = function del(d, cb) {
-  // Check for valid fone number, similar to GET above
   const { fone } = helpers.validateData(d.queryStringObj);
 
   if (!fone) {
@@ -280,7 +279,7 @@ handlers.tokens.get = function get(d, cb) {
   const { id } = helpers.validateData(d.queryStringObj);
 
   if (!id) {
-    cb(400, { Error: "Bad token ID data!" });
+    cb(400, { Error: "Missing or bad token ID data!" });
     return;
   }
 
