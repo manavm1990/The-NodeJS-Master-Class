@@ -131,16 +131,26 @@ handlers.users.get = function get(d, cb) {
 handlers.users.put = function put(d, cb) {
   const validatedData = helpers.validateData(d.reqPayload);
 
-  /**
-   *  We continue ONLY If
-   *  we have a valid fone AND
-   *  at least one other piece of data for updating.
-   */
   if (!validatedData.fone) {
     cb(400, { Error: "Missing fone!" });
     return;
   }
-  if (validatedData.fname || validatedData.lname || validatedData.pword) {
+
+  // Make sure there is something to update
+  if (!validatedData.fname && !validatedData.lname && !validatedData.pword) {
+    cb(400, { Error: "Missing information to update!" });
+    return;
+  }
+
+  // Get token from headers
+  const token = typeof d.headers.token === "string" ? d.headers.token : false;
+
+  handlers.tokens.verifyToken(token, validatedData.fone, isValidToken => {
+    if (!isValidToken) {
+      cb(403, { Error: "Missing or invalid header token" });
+      return;
+    }
+
     // Verify that we have an existing user
     crud.readDataFile("users", validatedData.fone, (err, udata) => {
       if (err || !udata) {
@@ -149,18 +159,14 @@ handlers.users.put = function put(d, cb) {
         return;
       }
 
-      /**
-       * Now that we know we have a valid user, let's clean up the validatedData in prepartion to 'merge'/overwrite some data.
-       */
+      // Clean up validatedData for merge
       Object.entries(validatedData).forEach(entry => {
         if (entry[1] === false) {
           delete validatedData[entry[0]];
         }
       });
 
-      /**
-       *  If we are changing a password, let's be sure to hash that first before updating.
-       */
+      // Hash password before updating
       if (validatedData.pword) {
         validatedData.pword = helpers.hash(validatedData.pword);
       }
@@ -177,9 +183,7 @@ handlers.users.put = function put(d, cb) {
         cb(200);
       });
     });
-  } else {
-    cb(400, { Error: "Missing information to update!" });
-  }
+  });
 };
 
 handlers.users.delete = function del(d, cb) {
