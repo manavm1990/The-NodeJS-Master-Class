@@ -45,13 +45,13 @@ helpers.validateData = function validateData(d) {
 };
 
 helpers.createTokenID = function createTokenID(len) {
-  crypto.randomBytes(len, (err, buff) => {
-    if (err) {
-      return false;
-    }
+  const validatedLen = typeof len === "number" && len > 0 ? len : false;
 
-    return buff;
-  });
+  if (!validatedLen) {
+    return false;
+  }
+
+  return crypto.randomBytes(validatedLen).toString("hex");
 };
 
 module.exports = helpers;
