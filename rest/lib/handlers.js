@@ -233,6 +233,42 @@ handlers.tokens.post = function post(d, cb) {
       cb(404, { Error: "Not authorized!" });
       return;
     }
+
+    /**
+     *  If user is validated with password,
+     * we can create a token.
+     *
+     * We will set it for 1 hour into the future...the future...the future......
+     */
+    const tokenID = helpers.createTokenID(20);
+    if (!tokenID) {
+      cb(500, { Error: "Token not created!" });
+      return;
+    }
+
+    // 1 hour = 1 second * 60 seconds / min * 60 min / hour
+    const tokenIDExp = Date.now() + 1000 * 60 * 60;
+
+    /**
+     * If we successfully generated a tokenID,
+     * let's build a token obj
+     * that will contain all of the spit we need.
+     */
+    const tokenObj = {
+      fone: validatedData.fone,
+      id: tokenID,
+      expires: tokenIDExp
+    };
+
+    // Store this object inside 'tokens' folder under .data.
+    crud.createRiteCloseFile("tokens", tokenID, tokenObj, createTokenErr => {
+      if (createTokenErr) {
+        cb(500, { Error: "Error writing token to file!" });
+        return;
+      }
+
+      cb(200, tokenObj);
+    });
   });
 };
 
