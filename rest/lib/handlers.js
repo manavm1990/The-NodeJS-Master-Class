@@ -110,17 +110,32 @@ handlers.users.get = function get(d, cb) {
     return;
   }
 
-  // Valid fone number received
-  crud.readDataFile("users", fone, (err, data) => {
-    if (err || !data) {
-      cb(404); // User not found!
+  // Get token from headers
+  const token = typeof d.headers.token === "string" ? d.headers.token : false;
+
+  console.log(token);
+
+  handlers.tokens.verifyToken(token, fone, isValidToken => {
+    if (!isValidToken) {
+      cb(403, { Error: "Missing or invalid header token" });
       return;
     }
 
-    // Remove hashedPword from the data object before returning
-    const redData = data;
-    delete redData.pword;
-    cb(200, redData);
+    /**
+     * Token validated.
+     * We can proceed with accessing user data.
+     */
+    crud.readDataFile("users", fone, (err, data) => {
+      if (err || !data) {
+        cb(404); // User not found!
+        return;
+      }
+
+      // Remove hashedPword from the data object before returning
+      const redData = data;
+      delete redData.pword;
+      cb(200, redData);
+    });
   });
 };
 
@@ -194,21 +209,31 @@ handlers.users.delete = function del(d, cb) {
     return;
   }
 
-  // Make sure user exists
-  crud.readDataFile("users", fone, (err, data) => {
-    if (err || !data) {
-      cb(400, { Error: "Could not find specified user!" });
+  // Get token from headers
+  const token = typeof d.headers.token === "string" ? d.headers.token : false;
+
+  handlers.tokens.verifyToken(token, fone, isValidToken => {
+    if (!isValidToken) {
+      cb(403, { Error: "Missing or invalid header token" });
       return;
     }
 
-    // Try to delete users
-    crud.deleteFile("users", fone, delErr => {
-      if (delErr) {
-        cb(500, { Error: "Could not delete specified user!" });
+    // Make sure user exists
+    crud.readDataFile("users", fone, (err, data) => {
+      if (err || !data) {
+        cb(400, { Error: "Could not find specified user!" });
         return;
       }
 
-      cb(200);
+      // Try to delete users
+      crud.deleteFile("users", fone, delErr => {
+        if (delErr) {
+          cb(500, { Error: "Could not delete specified user!" });
+          return;
+        }
+
+        cb(200);
+      });
     });
   });
 };
@@ -365,6 +390,27 @@ handlers.tokens.delete = function del(d, cb) {
 
       cb(200);
     });
+  });
+};
+
+// Compare and verify a tokenID and fone
+handlers.tokens.verifyToken = function verifyToken(id, fone, cb) {
+  crud.readDataFile("tokens", id, (err, tokenData) => {
+    if (err || !tokenData) {
+      cb(false);
+      return;
+    }
+
+    if (tokenData.fone !== fone || tokenData.expires <= Date.now()) {
+      /**
+       * tokenData doesn't match the user's fone or
+       * token is expired!
+       */
+      cb(false);
+      return;
+    }
+
+    cb(true);
   });
 };
 
