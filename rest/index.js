@@ -44,38 +44,40 @@ const fullServer = function fullServer(req, resp) {
    * Each time data is received (if any) via the Node stream, append payloadBuffer.
    * This references the REQUEST payload...
    */
-  req.on("data", data => {
-    payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.
-  });
+  req
+    .on("error", err => {
+      console.error(err.stack);
+    })
+    .on("data", data => {
+      payloadBuffer += decoder.write(data); // Decoder writes whatever data is as utf-8.
+    })
+    .on("end", () => {
+      payloadBuffer += decoder.end();
 
-  // Watch for end of stream
-  req.on("end", () => {
-    payloadBuffer += decoder.end();
+      // Find correct handler fxn. by checking to see if our path matches any route
+      const handlerFxn =
+        typeof router[trimmedPath] === "undefined"
+          ? handlers.notFound
+          : router[trimmedPath];
 
-    // Find correct handler fxn. by checking to see if our path matches any route
-    const handlerFxn =
-      typeof router[trimmedPath] === "undefined"
-        ? handlers.notFound
-        : router[trimmedPath];
+      const data = {
+        trimmedPath,
+        queryStringObj,
+        method,
+        headers,
+        reqPayload: helpers.parseJSONtoObj(payloadBuffer) // We don't want JSON.parse to throw error.
+      };
 
-    const data = {
-      trimmedPath,
-      queryStringObj,
-      method,
-      headers,
-      reqPayload: helpers.parseJSONtoObj(payloadBuffer) // We don't want JSON.parse to throw error.
-    };
+      handlerFxn(data, (statusCode = 200, respPayload = {}) => {
+        const payloadStr = JSON.stringify(respPayload);
 
-    handlerFxn(data, (statusCode = 200, respPayload = {}) => {
-      const payloadStr = JSON.stringify(respPayload);
+        resp.setHeader("Content-Type", "application/json");
+        resp.writeHead(statusCode);
+        resp.end(payloadStr);
 
-      resp.setHeader("Content-Type", "application/json");
-      resp.writeHead(statusCode);
-      resp.end(payloadStr);
-
-      console.log(`Here's the response: ${statusCode} and ${payloadStr}`);
+        console.log(`Here's the response: ${statusCode} and ${payloadStr}`);
+      });
     });
-  });
 };
 
 const httpServer = http.createServer((req, resp) => {
